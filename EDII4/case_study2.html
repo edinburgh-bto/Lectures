@@ -1,0 +1,3174 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="case_study2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="case_study2_files/libs/quarto-html/tabby.min.js"></script>
+<script src="case_study2_files/libs/quarto-html/popper.min.js"></script>
+<script src="case_study2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="case_study2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="case_study2_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="case_study2_files/libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.19">
+
+  <meta name="author" content="Nick Savill">
+  <title>Analysing macrophage turnover</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="case_study2_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="case_study2_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="case_study2_files/libs/revealjs/dist/theme/quarto-fdc93494f2580a7e050003a96af38920.css">
+  <link href="case_study2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="case_study2_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="case_study2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="case_study2_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+  
+  <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Analysing macrophage turnover</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Nick Savill
+</div>
+</div>
+</div>
+
+</section>
+<section id="learning-objectives" class="slide level3">
+<h3>Learning objectives</h3>
+<ul>
+<li class="fragment">Be able to follow a typical statistical analysis workflow</li>
+<li class="fragment">Be able to use and interpret the output of linear models</li>
+<li class="fragment">Be able to draw conclusions from statistical outputs</li>
+<li class="fragment">Be able to interpret the data in relation to the hypothesis</li>
+</ul>
+</section>
+<section id="workflow-of-statistical-analysis" class="slide level3">
+<h3>Workflow of statistical analysis</h3>
+<p>Before we start analysing the data we assume</p>
+<ol type="1">
+<li class="fragment"><p>the data have been entered into a spreadsheet and any data-entry errors have been corrected.</p></li>
+<li class="fragment"><p>the data are in tidy (or long) format:</p>
+<ul>
+<li class="fragment">Each row is an observation</li>
+<li class="fragment">Each column is a variable</li>
+</ul></li>
+</ol>
+<div class="fragment">
+<p>These are important steps and take time to get right - but we’ll assume they have already been done.</p>
+</div>
+</section>
+<section id="workflow-of-statistical-analysis-1" class="slide level3 smaller">
+<h3>Workflow of statistical analysis</h3>
+<ol type="1">
+<li class="fragment">In your statistical software, read in the data and plot it for a clearer understanding of the structure of the data</li>
+<li class="fragment">If necessary, transform any variables to make them linear and replot</li>
+<li class="fragment">Write down your model: describes how the (possibly transformed) response variable is related to the (possibly transformed) explanatory variables</li>
+<li class="fragment">Fit your model to the data. This automatically performs any statistical tests</li>
+<li class="fragment">Check that the model actually fits the data</li>
+<li class="fragment">If necessary, simplify your model and iterate steps 4 to 6 to obtain a model with the fewest parameters</li>
+<li class="fragment">Make inferences (conclusions) about your biological questions and hypotheses from the model fit
+<ul>
+<li class="fragment">parameter estimates with confidence intervals</li>
+<li class="fragment">tests for significance</li>
+</ul></li>
+</ol>
+</section>
+<section id="gut-macrophage-turnover" class="slide level3">
+<h3>Gut macrophage turnover</h3>
+<h4 id="tovahs-questions">Tovah’s questions</h4>
+<div class="noincrementall">
+<ol type="1">
+<li class="fragment"><p>What are the half-lives of different gut macrophage subpopulations and are they significantly different from one another?</p></li>
+<li class="fragment"><p>Does macrophage turnover occur at the same rate in the small and large intestines?</p></li>
+</ol>
+</div>
+</section>
+<section id="gut-macrophage-turnover-1" class="slide level3">
+<h3>Gut macrophage turnover</h3>
+<p>Data that was collected</p>
+<ul>
+<li class="fragment"><p>The proportion of macrophages in each subpopulation in the small and large intestines expressing YFP induced by tamoxifen recorded weekly over four weeks.</p></li>
+<li class="fragment"><p>Five replicates per time point.</p></li>
+<li class="fragment"><p>Positive control (blood monocytes) and negative controls (brain microglia).</p></li>
+</ul>
+</section>
+<section id="half-life" class="slide level3">
+<h3>Half-life</h3>
+<p>The half-life of something - be it radioactive nuclei, macrophages, drugs, etc. - is the time it takes for the amount of that thing to halve.</p>
+<div class="fragment">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>For example, the half-life of paracetamol is about 1 hour. It is metabolised in the liver and excreted in urine. So if you take a 400mg tablet at 9am, by 10am you’ll have 200mg left in your body and by 11am you’ll have 100mg in your body, and so on.</p>
+</div><div class="column" style="width:50%;">
+<p><img data-src="Figures/paracetamol.svg"></p>
+</div></div>
+</div>
+</section>
+<section id="constant-half-life-is-exponential-decay" class="slide level3 smaller">
+<h3>Constant half-life is exponential decay</h3>
+<p>Things that decay with a constant half-life (i.e., the half-life dose not change with time) are said to decay exponentially. The formula that describes exponential decay is</p>
+<p><span class="math display">\[y(t) = y_0 \exp\left(-\frac{\ln 2}{t_{1/2}}t\right)\]</span></p>
+<ul>
+<li class="fragment"><span class="math inline">\(t\)</span> is time</li>
+<li class="fragment"><span class="math inline">\(y(t)\)</span> is the amount or concentration of the thing decaying at time <span class="math inline">\(t\)</span></li>
+<li class="fragment"><span class="math inline">\(y_0\)</span> is the amount or concentration at the start when <span class="math inline">\(t=0\)</span></li>
+<li class="fragment"><span class="math inline">\(\ln 2\)</span> is the natural log of 2 (which is 0.6931…)</li>
+<li class="fragment"><span class="math inline">\(t_{1/2}\)</span> is the half-life.</li>
+</ul>
+</section>
+<section id="how-can-we-tell-if-something-decays-exponentially" class="slide level3">
+<h3>How can we tell if something decays exponentially?</h3>
+<p>Something that decays exponentially will appear as a straight line in a semi-log plot. Time is on the <span class="math inline">\(x\)</span>-axis and the log of amount or concentration is on the <span class="math inline">\(y\)</span>-axis.</p>
+
+<img data-src="Figures/paracetamol_log.svg" class="quarto-figure quarto-figure-center r-stretch"><p>(The maths are in the jupyter notebook).</p>
+</section>
+<section id="an-example-dataset" class="slide level3">
+<h3>An example dataset</h3>
+<ul>
+<li class="fragment">We want <strong>you</strong> to analyse the gut macrophage data.</li>
+<li class="fragment">So we will walk through an analysis of a different dataset that exhibits exponential decay.</li>
+<li class="fragment">You will use the same procedure for the macrophage data.</li>
+</ul>
+</section>
+<section id="an-example-dataset-1" class="slide level3">
+<h3>An example dataset</h3>
+<ul>
+<li class="fragment">Consider two drugs called A and B that relieve pain in humans. The speed with which they relieve pain is related to how fast the drugs are metabolised in the body: faster metabolism relieves pain quicker.</li>
+<li class="fragment">Our question is, which drug, if any, metabolises faster?</li>
+<li class="fragment">In a medical trial drug A is given to five volunteers and drug B is given to four volunteers.</li>
+<li class="fragment">The concentration (in mg/L) of each drug in the blood of each volunteer is measured every hour for five hours.</li>
+</ul>
+</section>
+<section id="read-in-the-data" class="slide level3 smaller scrollable">
+<h3>Read in the data</h3>
+<div id="a9e2f88c" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugs <span class="op">=</span> pd.read_csv(<span class="st">'Data/drug_data.csv'</span>)</span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a>drugs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">drug</th>
+<th data-quarto-table-cell-role="th">replicate</th>
+<th data-quarto-table-cell-role="th">hour</th>
+<th data-quarto-table-cell-role="th">concentration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>A</td>
+<td>1</td>
+<td>0</td>
+<td>169.468</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>A</td>
+<td>1</td>
+<td>1</td>
+<td>5.644</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>A</td>
+<td>1</td>
+<td>2</td>
+<td>4.459</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>A</td>
+<td>1</td>
+<td>3</td>
+<td>3.940</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>A</td>
+<td>1</td>
+<td>4</td>
+<td>3.169</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>A</td>
+<td>1</td>
+<td>5</td>
+<td>1.479</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>A</td>
+<td>2</td>
+<td>0</td>
+<td>182.933</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>A</td>
+<td>2</td>
+<td>1</td>
+<td>14.016</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>A</td>
+<td>2</td>
+<td>2</td>
+<td>4.035</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>A</td>
+<td>2</td>
+<td>3</td>
+<td>17.807</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>A</td>
+<td>2</td>
+<td>4</td>
+<td>0.992</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>A</td>
+<td>2</td>
+<td>5</td>
+<td>1.774</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>A</td>
+<td>3</td>
+<td>0</td>
+<td>41.339</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>A</td>
+<td>3</td>
+<td>1</td>
+<td>46.543</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>A</td>
+<td>3</td>
+<td>2</td>
+<td>6.712</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>A</td>
+<td>3</td>
+<td>3</td>
+<td>2.611</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>A</td>
+<td>3</td>
+<td>4</td>
+<td>0.845</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>A</td>
+<td>3</td>
+<td>5</td>
+<td>5.278</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>A</td>
+<td>4</td>
+<td>0</td>
+<td>73.115</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>A</td>
+<td>4</td>
+<td>1</td>
+<td>42.145</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>A</td>
+<td>4</td>
+<td>2</td>
+<td>3.820</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>A</td>
+<td>4</td>
+<td>3</td>
+<td>3.728</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">22</th>
+<td>A</td>
+<td>4</td>
+<td>4</td>
+<td>13.711</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">23</th>
+<td>A</td>
+<td>4</td>
+<td>5</td>
+<td>2.586</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">24</th>
+<td>A</td>
+<td>5</td>
+<td>0</td>
+<td>30.508</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>A</td>
+<td>5</td>
+<td>1</td>
+<td>117.001</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">26</th>
+<td>A</td>
+<td>5</td>
+<td>2</td>
+<td>4.121</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>A</td>
+<td>5</td>
+<td>3</td>
+<td>1.417</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">28</th>
+<td>A</td>
+<td>5</td>
+<td>4</td>
+<td>3.171</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">29</th>
+<td>A</td>
+<td>5</td>
+<td>5</td>
+<td>0.685</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">30</th>
+<td>B</td>
+<td>1</td>
+<td>0</td>
+<td>66.008</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">31</th>
+<td>B</td>
+<td>1</td>
+<td>1</td>
+<td>5.861</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">32</th>
+<td>B</td>
+<td>1</td>
+<td>2</td>
+<td>12.926</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">33</th>
+<td>B</td>
+<td>1</td>
+<td>3</td>
+<td>1.858</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">34</th>
+<td>B</td>
+<td>1</td>
+<td>4</td>
+<td>0.019</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">35</th>
+<td>B</td>
+<td>1</td>
+<td>5</td>
+<td>0.072</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">36</th>
+<td>B</td>
+<td>2</td>
+<td>0</td>
+<td>173.275</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">37</th>
+<td>B</td>
+<td>2</td>
+<td>1</td>
+<td>5.694</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">38</th>
+<td>B</td>
+<td>2</td>
+<td>2</td>
+<td>1.689</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">39</th>
+<td>B</td>
+<td>2</td>
+<td>3</td>
+<td>0.071</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">40</th>
+<td>B</td>
+<td>2</td>
+<td>4</td>
+<td>0.114</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">41</th>
+<td>B</td>
+<td>2</td>
+<td>5</td>
+<td>0.136</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">42</th>
+<td>B</td>
+<td>3</td>
+<td>0</td>
+<td>181.270</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">43</th>
+<td>B</td>
+<td>3</td>
+<td>1</td>
+<td>33.804</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">44</th>
+<td>B</td>
+<td>3</td>
+<td>2</td>
+<td>1.884</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">45</th>
+<td>B</td>
+<td>3</td>
+<td>3</td>
+<td>1.372</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">46</th>
+<td>B</td>
+<td>3</td>
+<td>4</td>
+<td>0.460</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">47</th>
+<td>B</td>
+<td>3</td>
+<td>5</td>
+<td>0.044</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">48</th>
+<td>B</td>
+<td>4</td>
+<td>0</td>
+<td>30.281</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">49</th>
+<td>B</td>
+<td>4</td>
+<td>1</td>
+<td>8.888</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">50</th>
+<td>B</td>
+<td>4</td>
+<td>2</td>
+<td>3.925</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">51</th>
+<td>B</td>
+<td>4</td>
+<td>3</td>
+<td>0.489</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">52</th>
+<td>B</td>
+<td>4</td>
+<td>4</td>
+<td>0.082</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">53</th>
+<td>B</td>
+<td>4</td>
+<td>5</td>
+<td>0.120</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Four columns:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">column name</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">drug</td>
+<td style="text-align: left;">either drug A or drug B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">replicate</td>
+<td style="text-align: left;">a number for each volunteer</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hour</td>
+<td style="text-align: left;">time since drug was taken in hours</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">concentration</td>
+<td style="text-align: left;">the concentration of the drug (mg/L)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="for-clarity-lets-start-with-examining-drug-a-data" class="slide level3">
+<h3>For clarity, let’s start with examining drug A data</h3>
+<p>(You would normally analyse both drugs simultaneously)</p>
+<p>Select only drug A data from the dataframe</p>
+<div id="de4861fd" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugA <span class="op">=</span> drugs.query(<span class="st">'drug == "A"'</span>).copy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="plot-drug-a-data" class="slide level3 nonincremental">
+<h3>Plot drug A data</h3>
+<div id="25aa5432" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'concentration'</span>, err_style<span class="op">=</span><span class="va">None</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'concentration'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="case_study2_files/figure-revealjs/cell-5-output-1.png" class="r-stretch"></section>
+<section id="semi-log-plot-to-see-if-decay-is-exponential" class="slide level3">
+<h3>Semi-log plot to see if decay is exponential</h3>
+<div id="5e914fd2" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.lineplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'concentration'</span>, err_style<span class="op">=</span><span class="va">None</span>)<span class="op">;</span></span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'concentration'</span>)</span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>ax.set_yscale(<span class="st">'log'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="case_study2_files/figure-revealjs/cell-6-output-1.png" class="r-stretch"></section>
+<section id="log-transform-concentration" class="slide level3 smaller scrollable">
+<h3>Log-transform concentration</h3>
+<div id="1b37decc" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugA[<span class="st">'log_conc'</span>] <span class="op">=</span> log(drugA[<span class="st">'concentration'</span>])</span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>drugA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">drug</th>
+<th data-quarto-table-cell-role="th">replicate</th>
+<th data-quarto-table-cell-role="th">hour</th>
+<th data-quarto-table-cell-role="th">concentration</th>
+<th data-quarto-table-cell-role="th">log_conc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>A</td>
+<td>1</td>
+<td>0</td>
+<td>169.468</td>
+<td>5.132664</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>A</td>
+<td>1</td>
+<td>1</td>
+<td>5.644</td>
+<td>1.730593</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>A</td>
+<td>1</td>
+<td>2</td>
+<td>4.459</td>
+<td>1.494925</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>A</td>
+<td>1</td>
+<td>3</td>
+<td>3.940</td>
+<td>1.371181</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>A</td>
+<td>1</td>
+<td>4</td>
+<td>3.169</td>
+<td>1.153416</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>A</td>
+<td>1</td>
+<td>5</td>
+<td>1.479</td>
+<td>0.391366</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>A</td>
+<td>2</td>
+<td>0</td>
+<td>182.933</td>
+<td>5.209120</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>A</td>
+<td>2</td>
+<td>1</td>
+<td>14.016</td>
+<td>2.640200</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>A</td>
+<td>2</td>
+<td>2</td>
+<td>4.035</td>
+<td>1.395006</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>A</td>
+<td>2</td>
+<td>3</td>
+<td>17.807</td>
+<td>2.879592</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>A</td>
+<td>2</td>
+<td>4</td>
+<td>0.992</td>
+<td>-0.008032</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>A</td>
+<td>2</td>
+<td>5</td>
+<td>1.774</td>
+<td>0.573237</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>A</td>
+<td>3</td>
+<td>0</td>
+<td>41.339</td>
+<td>3.721806</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>A</td>
+<td>3</td>
+<td>1</td>
+<td>46.543</td>
+<td>3.840377</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>A</td>
+<td>3</td>
+<td>2</td>
+<td>6.712</td>
+<td>1.903897</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>A</td>
+<td>3</td>
+<td>3</td>
+<td>2.611</td>
+<td>0.959733</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>A</td>
+<td>3</td>
+<td>4</td>
+<td>0.845</td>
+<td>-0.168419</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>A</td>
+<td>3</td>
+<td>5</td>
+<td>5.278</td>
+<td>1.663547</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>A</td>
+<td>4</td>
+<td>0</td>
+<td>73.115</td>
+<td>4.292034</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>A</td>
+<td>4</td>
+<td>1</td>
+<td>42.145</td>
+<td>3.741116</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>A</td>
+<td>4</td>
+<td>2</td>
+<td>3.820</td>
+<td>1.340250</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>A</td>
+<td>4</td>
+<td>3</td>
+<td>3.728</td>
+<td>1.315872</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">22</th>
+<td>A</td>
+<td>4</td>
+<td>4</td>
+<td>13.711</td>
+<td>2.618198</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">23</th>
+<td>A</td>
+<td>4</td>
+<td>5</td>
+<td>2.586</td>
+<td>0.950112</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">24</th>
+<td>A</td>
+<td>5</td>
+<td>0</td>
+<td>30.508</td>
+<td>3.417989</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>A</td>
+<td>5</td>
+<td>1</td>
+<td>117.001</td>
+<td>4.762182</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">26</th>
+<td>A</td>
+<td>5</td>
+<td>2</td>
+<td>4.121</td>
+<td>1.416096</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>A</td>
+<td>5</td>
+<td>3</td>
+<td>1.417</td>
+<td>0.348542</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">28</th>
+<td>A</td>
+<td>5</td>
+<td>4</td>
+<td>3.171</td>
+<td>1.154047</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">29</th>
+<td>A</td>
+<td>5</td>
+<td>5</td>
+<td>0.685</td>
+<td>-0.378336</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="use-seaborn-to-plot-a-linear-regression-line-with-95-confidence-band" class="slide level3 smaller">
+<h3>Use seaborn to plot a linear regression line with 95% confidence band</h3>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div id="cb453536" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>sns.lmplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'log_conc'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="case_study2_files/figure-revealjs/cell-8-output-1.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The 95% confidence band indicates our uncertainty in the rate of decay</p>
+<p>There is uncertainty because there is a limited amount of data: more data means less uncertainty</p>
+<p>Although seaborn has already plotted the linear regression line, we still need to fit a linear model to estimate the half-life</p>
+</div></div>
+</section>
+<section id="what-is-a-linear-model" class="slide level3">
+<h3>What is a linear model?</h3>
+<p>A linear model is our guess about how the response variable is linearly related to the explanatory variables</p>
+</section>
+<section id="what-is-a-linear-model-1" class="slide level3">
+<h3>What is a linear model?</h3>
+
+<img data-src="Figures/drugA_log_conc_time.svg" class="quarto-figure quarto-figure-center r-stretch"><p>So our model is</p>
+<p><strong>log(concentration) is linearly related to time since administration</strong></p>
+</section>
+<section id="what-is-a-linear-model-2" class="slide level3">
+<h3>What is a linear model?</h3>
+<p>For the computer to fit this model to the data we write it as a formula like so</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'log_conc ~ hour'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Where <code>log_conc</code> and <code>hour</code> are the response and explanatory variables in our dataframe.</p>
+</section>
+<section id="fit-the-linear-model-to-the-data" class="slide level3 smaller">
+<h3>Fit the linear model to the data</h3>
+<div id="9e0162ef" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># the formula for our model</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'log_conc ~ hour'</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># fit the model to the data (in dataframe drugA)</span></span>
+<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> ols(formula, drugA).fit()</span>
+<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># output a summary of the model fit</span></span>
+<span id="cb8-8"><a href="" aria-hidden="true" tabindex="-1"></a>fit.summary().tables[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.311</td>
+<td>12.464</td>
+<td>0.000</td>
+<td>3.241</td>
+<td>4.515</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.103</td>
+<td>-7.198</td>
+<td>0.000</td>
+<td>-0.950</td>
+<td>-0.529</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="fit-the-linear-model-to-the-data-1" class="slide level3 smaller">
+<h3>Fit the linear model to the data</h3>
+<div id="2a20615f" class="cell" data-execution_count="11">
+<div class="cell-output cell-output-display" data-execution_count="11">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.311</td>
+<td>12.464</td>
+<td>0.000</td>
+<td>3.241</td>
+<td>4.515</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.103</td>
+<td>-7.198</td>
+<td>0.000</td>
+<td>-0.950</td>
+<td>-0.529</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>To draw a straight line you need two pieces of information</p>
+<ul>
+<li>its y-intercept (where the line crosses the <span class="math inline">\(y\)</span>-axis)</li>
+<li>its slope or gradient</li>
+</ul>
+
+<img data-src="Figures/drugA.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="check-that-the-model-fits-the-data" class="slide level3">
+<h3>Check that the model fits the data</h3>
+<p>Pearson residuals are often used as a way of checking that the model fits the data well.</p>
+
+<img data-src="Figures/residuals.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="check-that-the-model-fits-the-data-1" class="slide level3">
+<h3>Check that the model fits the data</h3>
+<p>Pearson residuals are obtained by dividing the raw residuals by their standard deviation. This is called standardisation.</p>
+
+<img data-src="Figures/residuals.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="check-that-the-model-fits-the-data-2" class="slide level3 smaller scrollable">
+<h3>Check that the model fits the data</h3>
+<p>Add Pearson residuals to our dataframe.</p>
+<div id="35f77ce1" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugA[<span class="st">'residuals'</span>] <span class="op">=</span> fit.resid_pearson</span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a>drugA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">drug</th>
+<th data-quarto-table-cell-role="th">replicate</th>
+<th data-quarto-table-cell-role="th">hour</th>
+<th data-quarto-table-cell-role="th">concentration</th>
+<th data-quarto-table-cell-role="th">log_conc</th>
+<th data-quarto-table-cell-role="th">residuals</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>A</td>
+<td>1</td>
+<td>0</td>
+<td>169.468</td>
+<td>5.132664</td>
+<td>1.305331</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>A</td>
+<td>1</td>
+<td>1</td>
+<td>5.644</td>
+<td>1.730593</td>
+<td>-1.464334</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>A</td>
+<td>1</td>
+<td>2</td>
+<td>4.459</td>
+<td>1.494925</td>
+<td>-0.940047</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>A</td>
+<td>1</td>
+<td>3</td>
+<td>3.940</td>
+<td>1.371181</td>
+<td>-0.299327</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>A</td>
+<td>1</td>
+<td>4</td>
+<td>3.169</td>
+<td>1.153416</td>
+<td>0.243586</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>A</td>
+<td>1</td>
+<td>5</td>
+<td>1.479</td>
+<td>0.391366</td>
+<td>0.220288</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>A</td>
+<td>2</td>
+<td>0</td>
+<td>182.933</td>
+<td>5.209120</td>
+<td>1.384866</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>A</td>
+<td>2</td>
+<td>1</td>
+<td>14.016</td>
+<td>2.640200</td>
+<td>-0.518087</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>A</td>
+<td>2</td>
+<td>2</td>
+<td>4.035</td>
+<td>1.395006</td>
+<td>-1.043990</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>A</td>
+<td>2</td>
+<td>3</td>
+<td>17.807</td>
+<td>2.879592</td>
+<td>1.269846</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>A</td>
+<td>2</td>
+<td>4</td>
+<td>0.992</td>
+<td>-0.008032</td>
+<td>-0.964648</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>A</td>
+<td>2</td>
+<td>5</td>
+<td>1.774</td>
+<td>0.573237</td>
+<td>0.409484</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>A</td>
+<td>3</td>
+<td>0</td>
+<td>41.339</td>
+<td>3.721806</td>
+<td>-0.162359</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>A</td>
+<td>3</td>
+<td>1</td>
+<td>46.543</td>
+<td>3.840377</td>
+<td>0.730436</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>A</td>
+<td>3</td>
+<td>2</td>
+<td>6.712</td>
+<td>1.903897</td>
+<td>-0.514600</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>A</td>
+<td>3</td>
+<td>3</td>
+<td>2.611</td>
+<td>0.959733</td>
+<td>-0.727348</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>A</td>
+<td>3</td>
+<td>4</td>
+<td>0.845</td>
+<td>-0.168419</td>
+<td>-1.131495</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>A</td>
+<td>3</td>
+<td>5</td>
+<td>5.278</td>
+<td>1.663547</td>
+<td>1.543715</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>A</td>
+<td>4</td>
+<td>0</td>
+<td>73.115</td>
+<td>4.292034</td>
+<td>0.430838</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>A</td>
+<td>4</td>
+<td>1</td>
+<td>42.145</td>
+<td>3.741116</td>
+<td>0.627177</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>A</td>
+<td>4</td>
+<td>2</td>
+<td>3.820</td>
+<td>1.340250</td>
+<td>-1.100952</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>A</td>
+<td>4</td>
+<td>3</td>
+<td>3.728</td>
+<td>1.315872</td>
+<td>-0.356863</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">22</th>
+<td>A</td>
+<td>4</td>
+<td>4</td>
+<td>13.711</td>
+<td>2.618198</td>
+<td>1.767373</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">23</th>
+<td>A</td>
+<td>4</td>
+<td>5</td>
+<td>2.586</td>
+<td>0.950112</td>
+<td>0.801541</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">24</th>
+<td>A</td>
+<td>5</td>
+<td>0</td>
+<td>30.508</td>
+<td>3.417989</td>
+<td>-0.478415</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>A</td>
+<td>5</td>
+<td>1</td>
+<td>117.001</td>
+<td>4.762182</td>
+<td>1.689374</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">26</th>
+<td>A</td>
+<td>5</td>
+<td>2</td>
+<td>4.121</td>
+<td>1.416096</td>
+<td>-1.022051</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>A</td>
+<td>5</td>
+<td>3</td>
+<td>1.417</td>
+<td>0.348542</td>
+<td>-1.363159</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">28</th>
+<td>A</td>
+<td>5</td>
+<td>4</td>
+<td>3.171</td>
+<td>1.154047</td>
+<td>0.244242</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">29</th>
+<td>A</td>
+<td>5</td>
+<td>5</td>
+<td>0.685</td>
+<td>-0.378336</td>
+<td>-0.580420</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="check-that-the-model-fits-the-data-3" class="slide level3">
+<h3>Check that the model fits the data</h3>
+<p>We plot the Pearson residuals against each of our explanatory variables.</p>
+<p>We are looking for a cloud of points without any structure or trend.</p>
+<p>Because Pearson residuals are standardised they should be roughly distributed between ±2.</p>
+</section>
+<section id="check-that-the-model-fits-the-data-4" class="slide level3">
+<h3>Check that the model fits the data</h3>
+<div id="4d8dc5d0" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'residuals'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="case_study2_files/figure-revealjs/cell-12-output-1.png" class="r-stretch"><p>Pearson residuals should not be correlated with the explanatory variables.</p>
+</section>
+<section id="a-poor-fitting-model" class="slide level3">
+<h3>A poor fitting model</h3>
+<p>Pearson residuals are correlated with hour.</p>
+
+<img data-src="Figures/residuals_poor.svg" class="r-stretch"></section>
+<section id="interpreting-the-output-of-the-model-fit" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="1f536f7f" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.311</td>
+<td>12.464</td>
+<td>0.000</td>
+<td>3.241</td>
+<td>4.515</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.103</td>
+<td>-7.198</td>
+<td>0.000</td>
+<td>-0.950</td>
+<td>-0.529</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The <strong>coef</strong> column gives us the estimated mean of the parameters: 3.88 for the <em>y</em>-intercept and -0.74 for the slope.</p>
+<p><strong>std err</strong> means “standard error”. This column gives us a measure of the uncertainty in those estimates, 3.88 ± 0.31 for the y-intercept and -0.74 ± 0.10 for the slope.</p>
+
+<img data-src="Figures/drugA.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="interpreting-the-output-of-the-model-fit-1" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="9a1d2d50" class="cell" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="15">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.311</td>
+<td>12.464</td>
+<td>0.000</td>
+<td>3.241</td>
+<td>4.515</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.103</td>
+<td>-7.198</td>
+<td>0.000</td>
+<td>-0.950</td>
+<td>-0.529</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The rest of each row is a statistical test (a t-test) of whether that estimate is significantly different from zero.</p>
+<ul>
+<li class="fragment"><p>Column <strong>t</strong> contains the <span class="math inline">\(t\)</span>-statistic of each test. It’s value is just <strong>coef</strong> divided by <strong>std err</strong>.</p></li>
+<li class="fragment"><p>For the y-intercept <span class="math inline">\(t=-\frac{3.8779}{0.311} = 12.464\)</span>.</p></li>
+</ul>
+</section>
+<section id="interpreting-the-output-of-the-model-fit-2" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="802114bf" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.311</td>
+<td>12.464</td>
+<td>0.000</td>
+<td>3.241</td>
+<td>4.515</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.103</td>
+<td>-7.198</td>
+<td>0.000</td>
+<td>-0.950</td>
+<td>-0.529</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li class="fragment"><p><strong>P&gt;|t|</strong> The <em>p</em>-value, the compatibility of the data with the null hypothesis of <code>coef</code> equal to zero.</p></li>
+<li class="fragment"><p>The estimated y-intercept of 3.88 ± 0.31 is far from zero. Therefore it is incompatible with the null hypothesis of being zero. In fact it’s so small that the <em>p</em>-value appears to be zero.</p></li>
+<li class="fragment"><p>A <em>p</em>-value can never be zero. In this case it’s so small it just looks like zero. In fact it’s value is <span class="math inline">\(6\times 10^{-13}\)</span> (You can find this value by running <code>fit.pvalues</code>.)</p></li>
+<li class="fragment"><p>When <em>p</em>-values are this small we usually write “<em>p</em> &lt; 0.001” rather than give its exact value.</p></li>
+<li class="fragment"><p>Having said all that, we’re not interested in the y-intercept. There is nothing biologically interesting about it. What we are interested in is the slope.</p></li>
+</ul>
+</section>
+<section id="interpreting-the-output-of-the-model-fit-3" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="ad129bd5" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="17">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.311</td>
+<td>12.464</td>
+<td>0.000</td>
+<td>3.241</td>
+<td>4.515</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.103</td>
+<td>-7.198</td>
+<td>0.000</td>
+<td>-0.950</td>
+<td>-0.529</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li class="fragment"><p>For the slope <span class="math inline">\(t=-\frac{-0.7397}{0.103} = -7.198\)</span>.</p></li>
+<li class="fragment"><p>Its <em>p</em>-value is also &lt; 0.001.</p></li>
+<li class="fragment"><p>Which means, the slope of -0.74 is incompatible with the null hypothesis of being zero.</p></li>
+</ul>
+</section>
+<section id="interpreting-the-output-of-the-model-fit-4" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="0c250853" class="cell" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="18">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.311</td>
+<td>12.464</td>
+<td>0.000</td>
+<td>3.241</td>
+<td>4.515</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.103</td>
+<td>-7.198</td>
+<td>0.000</td>
+<td>-0.950</td>
+<td>-0.529</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li class="fragment"><p>The columns <strong>[0.025 0.975]</strong> are the 95% confidence interval (CI) of the estimated slope</p></li>
+<li class="fragment"><p>Like <strong>std err</strong>, the 95% CI is another measure of our uncertainty in the estimate</p></li>
+<li class="fragment"><p>If a 95% CI contains zero, then its <em>p</em>-value will be greater than 0.05. In that case the estimated parameter is compatible with the null hypothesis. We would say the slope is <strong>not</strong> significantly different from zero.</p></li>
+<li class="fragment"><p>If a 95% CI does not contain zero, then its <em>p</em>-value will be less than 0.05. In that case the estimated parameter is incompatible with the null hypothesis. We would say the slope is significantly different from zero.</p></li>
+<li class="fragment"><p>As the <em>p</em>-values for both the slope and intercept are &lt; 0.001 (and their 95% CI do not contain zero) we can say both are significantly different from zero.</p></li>
+</ul>
+</section>
+<section id="now-compare-drugs-a-and-b" class="slide level3">
+<h3>Now compare drugs A and B</h3>
+</section>
+<section id="log-transform-concentration-1" class="slide level3 smaller scrollable">
+<h3>Log-transform concentration</h3>
+<div id="949e95d9" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugs[<span class="st">'log_conc'</span>] <span class="op">=</span> log(drugs[<span class="st">'concentration'</span>]).dropna()</span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a>drugs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+<table class="dataframe caption-top" data-border="1">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">drug</th>
+<th data-quarto-table-cell-role="th">replicate</th>
+<th data-quarto-table-cell-role="th">hour</th>
+<th data-quarto-table-cell-role="th">concentration</th>
+<th data-quarto-table-cell-role="th">log_conc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>A</td>
+<td>1</td>
+<td>0</td>
+<td>169.468</td>
+<td>5.132664</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>A</td>
+<td>1</td>
+<td>1</td>
+<td>5.644</td>
+<td>1.730593</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>A</td>
+<td>1</td>
+<td>2</td>
+<td>4.459</td>
+<td>1.494925</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>A</td>
+<td>1</td>
+<td>3</td>
+<td>3.940</td>
+<td>1.371181</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>A</td>
+<td>1</td>
+<td>4</td>
+<td>3.169</td>
+<td>1.153416</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>A</td>
+<td>1</td>
+<td>5</td>
+<td>1.479</td>
+<td>0.391366</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>A</td>
+<td>2</td>
+<td>0</td>
+<td>182.933</td>
+<td>5.209120</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>A</td>
+<td>2</td>
+<td>1</td>
+<td>14.016</td>
+<td>2.640200</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>A</td>
+<td>2</td>
+<td>2</td>
+<td>4.035</td>
+<td>1.395006</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">9</th>
+<td>A</td>
+<td>2</td>
+<td>3</td>
+<td>17.807</td>
+<td>2.879592</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">10</th>
+<td>A</td>
+<td>2</td>
+<td>4</td>
+<td>0.992</td>
+<td>-0.008032</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>A</td>
+<td>2</td>
+<td>5</td>
+<td>1.774</td>
+<td>0.573237</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>A</td>
+<td>3</td>
+<td>0</td>
+<td>41.339</td>
+<td>3.721806</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">13</th>
+<td>A</td>
+<td>3</td>
+<td>1</td>
+<td>46.543</td>
+<td>3.840377</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">14</th>
+<td>A</td>
+<td>3</td>
+<td>2</td>
+<td>6.712</td>
+<td>1.903897</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">15</th>
+<td>A</td>
+<td>3</td>
+<td>3</td>
+<td>2.611</td>
+<td>0.959733</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">16</th>
+<td>A</td>
+<td>3</td>
+<td>4</td>
+<td>0.845</td>
+<td>-0.168419</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">17</th>
+<td>A</td>
+<td>3</td>
+<td>5</td>
+<td>5.278</td>
+<td>1.663547</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">18</th>
+<td>A</td>
+<td>4</td>
+<td>0</td>
+<td>73.115</td>
+<td>4.292034</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">19</th>
+<td>A</td>
+<td>4</td>
+<td>1</td>
+<td>42.145</td>
+<td>3.741116</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">20</th>
+<td>A</td>
+<td>4</td>
+<td>2</td>
+<td>3.820</td>
+<td>1.340250</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">21</th>
+<td>A</td>
+<td>4</td>
+<td>3</td>
+<td>3.728</td>
+<td>1.315872</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">22</th>
+<td>A</td>
+<td>4</td>
+<td>4</td>
+<td>13.711</td>
+<td>2.618198</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">23</th>
+<td>A</td>
+<td>4</td>
+<td>5</td>
+<td>2.586</td>
+<td>0.950112</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">24</th>
+<td>A</td>
+<td>5</td>
+<td>0</td>
+<td>30.508</td>
+<td>3.417989</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">25</th>
+<td>A</td>
+<td>5</td>
+<td>1</td>
+<td>117.001</td>
+<td>4.762182</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">26</th>
+<td>A</td>
+<td>5</td>
+<td>2</td>
+<td>4.121</td>
+<td>1.416096</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>A</td>
+<td>5</td>
+<td>3</td>
+<td>1.417</td>
+<td>0.348542</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">28</th>
+<td>A</td>
+<td>5</td>
+<td>4</td>
+<td>3.171</td>
+<td>1.154047</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">29</th>
+<td>A</td>
+<td>5</td>
+<td>5</td>
+<td>0.685</td>
+<td>-0.378336</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">30</th>
+<td>B</td>
+<td>1</td>
+<td>0</td>
+<td>66.008</td>
+<td>4.189776</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">31</th>
+<td>B</td>
+<td>1</td>
+<td>1</td>
+<td>5.861</td>
+<td>1.768320</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">32</th>
+<td>B</td>
+<td>1</td>
+<td>2</td>
+<td>12.926</td>
+<td>2.559241</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">33</th>
+<td>B</td>
+<td>1</td>
+<td>3</td>
+<td>1.858</td>
+<td>0.619501</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">34</th>
+<td>B</td>
+<td>1</td>
+<td>4</td>
+<td>0.019</td>
+<td>-3.963316</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">35</th>
+<td>B</td>
+<td>1</td>
+<td>5</td>
+<td>0.072</td>
+<td>-2.631089</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">36</th>
+<td>B</td>
+<td>2</td>
+<td>0</td>
+<td>173.275</td>
+<td>5.154880</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">37</th>
+<td>B</td>
+<td>2</td>
+<td>1</td>
+<td>5.694</td>
+<td>1.739413</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">38</th>
+<td>B</td>
+<td>2</td>
+<td>2</td>
+<td>1.689</td>
+<td>0.524137</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">39</th>
+<td>B</td>
+<td>2</td>
+<td>3</td>
+<td>0.071</td>
+<td>-2.645075</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">40</th>
+<td>B</td>
+<td>2</td>
+<td>4</td>
+<td>0.114</td>
+<td>-2.171557</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">41</th>
+<td>B</td>
+<td>2</td>
+<td>5</td>
+<td>0.136</td>
+<td>-1.995100</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">42</th>
+<td>B</td>
+<td>3</td>
+<td>0</td>
+<td>181.270</td>
+<td>5.199988</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">43</th>
+<td>B</td>
+<td>3</td>
+<td>1</td>
+<td>33.804</td>
+<td>3.520579</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">44</th>
+<td>B</td>
+<td>3</td>
+<td>2</td>
+<td>1.884</td>
+<td>0.633397</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">45</th>
+<td>B</td>
+<td>3</td>
+<td>3</td>
+<td>1.372</td>
+<td>0.316270</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">46</th>
+<td>B</td>
+<td>3</td>
+<td>4</td>
+<td>0.460</td>
+<td>-0.776529</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">47</th>
+<td>B</td>
+<td>3</td>
+<td>5</td>
+<td>0.044</td>
+<td>-3.123566</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">48</th>
+<td>B</td>
+<td>4</td>
+<td>0</td>
+<td>30.281</td>
+<td>3.410520</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">49</th>
+<td>B</td>
+<td>4</td>
+<td>1</td>
+<td>8.888</td>
+<td>2.184702</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">50</th>
+<td>B</td>
+<td>4</td>
+<td>2</td>
+<td>3.925</td>
+<td>1.367366</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">51</th>
+<td>B</td>
+<td>4</td>
+<td>3</td>
+<td>0.489</td>
+<td>-0.715393</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">52</th>
+<td>B</td>
+<td>4</td>
+<td>4</td>
+<td>0.082</td>
+<td>-2.501036</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">53</th>
+<td>B</td>
+<td>4</td>
+<td>5</td>
+<td>0.120</td>
+<td>-2.120264</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="use-seaborn-to-plot-a-linear-regression-line-with-95-confidence-bands" class="slide level3">
+<h3>Use seaborn to plot a linear regression line with 95% confidence bands</h3>
+<div id="2a9257bc" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a>sns.lmplot(data<span class="op">=</span>drugs, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'log_conc'</span>, hue<span class="op">=</span><span class="st">'drug'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="case_study2_files/figure-revealjs/cell-19-output-1.png" class="r-stretch"></section>
+<section id="fit-a-linear-model" class="slide level3">
+<h3>Fit a linear model</h3>
+<p>The formula to test for a difference in decay rates between drugs A and B is</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'log_conc ~ drug * hour'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li class="fragment"><p>Do not read this formula like a mathematical formula!</p></li>
+<li class="fragment"><p>This formula means log(concentration) is <strong>linearly related (~)</strong> to the combination of the <code>drug</code> given (A or B) and to the <code>hour</code> since administration.</p></li>
+</ul>
+</section>
+<section id="some-statistical-terminology-factors-levels-and-variates" class="slide level3">
+<h3>Some statistical terminology: Factors, levels and variates</h3>
+<ul>
+<li class="fragment"><p>A <strong>factor</strong> is a categorical explanatory variable</p>
+<ul>
+<li class="fragment"><code>drug</code> is a factor</li>
+</ul></li>
+<li class="fragment"><p>A factor has two or more <strong>levels</strong></p>
+<ul>
+<li class="fragment">the levels of the factor <code>drug</code> are <code>A</code> and <code>B</code></li>
+</ul></li>
+<li class="fragment"><p>A <strong>variate</strong> is a numerical explanatory variable</p>
+<ul>
+<li class="fragment"><code>hour</code> is a variate</li>
+</ul></li>
+</ul>
+</section>
+<section id="fit-our-linear-model-to-the-drug-data" class="slide level3 smaller">
+<h3>Fit our linear model to the drug data</h3>
+<div id="889a6931" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'log_conc ~ drug*hour'</span></span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> ols(formula, drugs).fit()</span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a>fit.summary().tables[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.325</td>
+<td>11.931</td>
+<td>0.000</td>
+<td>3.225</td>
+<td>4.531</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]</th>
+<td>0.1778</td>
+<td>0.488</td>
+<td>0.365</td>
+<td>0.717</td>
+<td>-0.801</td>
+<td>1.157</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.107</td>
+<td>-6.890</td>
+<td>0.000</td>
+<td>-0.955</td>
+<td>-0.524</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]:hour</th>
+<td>-0.7069</td>
+<td>0.161</td>
+<td>-4.390</td>
+<td>0.000</td>
+<td>-1.030</td>
+<td>-0.383</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="check-that-the-model-fits-the-data-5" class="slide level3">
+<h3>Check that the model fits the data</h3>
+<div id="0505eead" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugs[<span class="st">'residuals'</span>] <span class="op">=</span> fit.resid_pearson</span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugs, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'residuals'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="case_study2_files/figure-revealjs/cell-21-output-1.png" class="r-stretch"></section>
+<section id="check-that-the-model-fits-the-data-6" class="slide level3">
+<h3>Check that the model fits the data</h3>
+<div id="8d61af35" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugs, x<span class="op">=</span><span class="st">'drug'</span>, y<span class="op">=</span><span class="st">'residuals'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="case_study2_files/figure-revealjs/cell-22-output-1.png" class="r-stretch"></section>
+<section id="interpreting-the-output-of-the-model-fit-5" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="db45f2c5" class="cell" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="25">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.325</td>
+<td>11.931</td>
+<td>0.000</td>
+<td>3.225</td>
+<td>4.531</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]</th>
+<td>0.1778</td>
+<td>0.488</td>
+<td>0.365</td>
+<td>0.717</td>
+<td>-0.801</td>
+<td>1.157</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.107</td>
+<td>-6.890</td>
+<td>0.000</td>
+<td>-0.955</td>
+<td>-0.524</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]:hour</th>
+<td>-0.7069</td>
+<td>0.161</td>
+<td>-4.390</td>
+<td>0.000</td>
+<td>-1.030</td>
+<td>-0.383</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>First notice that the <code>Intercept</code> and <code>hour</code> rows are the same as before</p>
+
+<img data-src="Figures/drug_refA.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="interpreting-the-output-of-the-model-fit-6" class="slide level3">
+<h3>Interpreting the output of the model fit</h3>
+<ul>
+<li class="fragment"><p>The fitting procedure has taken drug A as the reference level.</p></li>
+<li class="fragment"><p>By default the reference level is the first alphabetically. But you can change this.</p></li>
+<li class="fragment"><p>The parameters for drug B are estimated <strong>relative</strong> to drug A.</p>
+<ul>
+<li class="fragment">That is, the procedure calculates the differences in the y-intercepts and the differences in the slopes between drugs A and B.</li>
+</ul></li>
+</ul>
+</section>
+<section id="interpreting-the-output-of-the-model-fit-7" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="c6de703d" class="cell" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="26">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.325</td>
+<td>11.931</td>
+<td>0.000</td>
+<td>3.225</td>
+<td>4.531</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]</th>
+<td>0.1778</td>
+<td>0.488</td>
+<td>0.365</td>
+<td>0.717</td>
+<td>-0.801</td>
+<td>1.157</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.107</td>
+<td>-6.890</td>
+<td>0.000</td>
+<td>-0.955</td>
+<td>-0.524</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]:hour</th>
+<td>-0.7069</td>
+<td>0.161</td>
+<td>-4.390</td>
+<td>0.000</td>
+<td>-1.030</td>
+<td>-0.383</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Row <code>drug[T.B]</code> is the <strong>difference</strong> between the y-intercepts of drugs A and B.</p>
+
+<img data-src="Figures/drugs_D_intercept.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="interpreting-the-output-of-the-model-fit-8" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="de219e42" class="cell" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="27">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.325</td>
+<td>11.931</td>
+<td>0.000</td>
+<td>3.225</td>
+<td>4.531</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]</th>
+<td>0.1778</td>
+<td>0.488</td>
+<td>0.365</td>
+<td>0.717</td>
+<td>-0.801</td>
+<td>1.157</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.107</td>
+<td>-6.890</td>
+<td>0.000</td>
+<td>-0.955</td>
+<td>-0.524</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]:hour</th>
+<td>-0.7069</td>
+<td>0.161</td>
+<td>-4.390</td>
+<td>0.000</td>
+<td>-1.030</td>
+<td>-0.383</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Row <code>drug[T.B]:hour</code> is the <strong>difference</strong> between the slopes of drugs A and B.</p>
+
+<img data-src="Figures/drugs_D_slopes.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="interpreting-the-output-of-the-model-fit-9" class="slide level3 smaller">
+<h3>Interpreting the output of the model fit</h3>
+<div id="f836f4d1" class="cell" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="28">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.325</td>
+<td>11.931</td>
+<td>0.000</td>
+<td>3.225</td>
+<td>4.531</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]</th>
+<td>0.1778</td>
+<td>0.488</td>
+<td>0.365</td>
+<td>0.717</td>
+<td>-0.801</td>
+<td>1.157</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.107</td>
+<td>-6.890</td>
+<td>0.000</td>
+<td>-0.955</td>
+<td>-0.524</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">drug[T.B]:hour</th>
+<td>-0.7069</td>
+<td>0.161</td>
+<td>-4.390</td>
+<td>0.000</td>
+<td>-1.030</td>
+<td>-0.383</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li class="fragment"><p>The <em>p</em>-value of the test that the difference between the slopes is different from zero is &lt; 0.001.</p></li>
+<li class="fragment"><p>The confidence interval for the difference between the slopes is (-1.03, -0.38). It does not contain zero.</p></li>
+<li class="fragment"><p>Therefore, there is a significant difference between the slopes.</p></li>
+<li class="fragment"><p>Which means drugs A and B have significantly different decay rates and, therefore, half-lives.</p></li>
+</ul>
+</section>
+<section id="change-the-reference-level-of-a-factor" class="slide level3">
+<h3>Change the reference level of a factor</h3>
+<p>By default the reference level is the first alphabetically. So drug A is the reference.</p>
+<p>This can be changed so that drug B is the reference.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># drug A is the reference level by default</span></span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'log_conc ~ drug * hour'</span></span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># change reference level to drug B</span></span>
+<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'log_conc ~ C(drug, Treatment("B")) * hour'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="change-the-reference-level-of-a-factor-1" class="slide level3 smaller">
+<h3>Change the reference level of a factor</h3>
+<div id="6c360b66" class="cell" data-execution_count="33">
+<div class="cell-output cell-output-display" data-execution_count="33">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>3.8779</td>
+<td>0.325</td>
+<td>11.931</td>
+<td>0.000</td>
+<td>3.225</td>
+<td>4.531</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">C(drug, Treatment("A"))[T.B]</th>
+<td>0.1778</td>
+<td>0.488</td>
+<td>0.365</td>
+<td>0.717</td>
+<td>-0.801</td>
+<td>1.157</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-0.7397</td>
+<td>0.107</td>
+<td>-6.890</td>
+<td>0.000</td>
+<td>-0.955</td>
+<td>-0.524</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">C(drug, Treatment("A"))[T.B]:hour</th>
+<td>-0.7069</td>
+<td>0.161</td>
+<td>-4.390</td>
+<td>0.000</td>
+<td>-1.030</td>
+<td>-0.383</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="2ee61b86" class="cell" data-execution_count="34">
+<div class="cell-output cell-output-display" data-execution_count="34">
+<table class="simpletable caption-top">
+<tbody>
+<tr class="odd">
+<td></td>
+<th data-quarto-table-cell-role="th">coef</th>
+<th data-quarto-table-cell-role="th">std err</th>
+<th data-quarto-table-cell-role="th">t</th>
+<th data-quarto-table-cell-role="th">P&gt;|t|</th>
+<th data-quarto-table-cell-role="th">[0.025</th>
+<th data-quarto-table-cell-role="th">0.975]</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Intercept</th>
+<td>4.0557</td>
+<td>0.363</td>
+<td>11.161</td>
+<td>0.000</td>
+<td>3.326</td>
+<td>4.786</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">C(drug, Treatment("B"))[T.A]</th>
+<td>-0.1778</td>
+<td>0.488</td>
+<td>-0.365</td>
+<td>0.717</td>
+<td>-1.157</td>
+<td>0.801</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">hour</th>
+<td>-1.4465</td>
+<td>0.120</td>
+<td>-12.052</td>
+<td>0.000</td>
+<td>-1.688</td>
+<td>-1.205</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">C(drug, Treatment("B"))[T.A]:hour</th>
+<td>0.7069</td>
+<td>0.161</td>
+<td>4.390</td>
+<td>0.000</td>
+<td>0.383</td>
+<td>1.030</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="estimate-half-lives-of-drugs-a-and-b" class="slide level3">
+<h3>Estimate half-lives of drugs A and B</h3>
+<p>Half-life <span class="math inline">\(t_{1/2}\)</span>, is related to decay rate <span class="math inline">\(r\)</span>, by the formula</p>
+<p><span class="math display">\[t_{1/2} = \frac{\ln 2}{r}\]</span></p>
+<p>(The maths, if you’re interested, is in the macrophage notebook)</p>
+<ul>
+<li class="fragment">The decay rate and its standard error are available from the summary tables</li>
+</ul>
+</section>
+<section id="estimate-half-lives-of-drugs-a-and-b-1" class="slide level3">
+<h3>Estimate half-lives of drugs A and B</h3>
+<div id="e6421a88" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Estimated parameters'</span>)</span>
+<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> fit.params</span>
+<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mu)</span>
+<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span>
+<span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Uncertainty (standard error) in the estimates'</span>)</span>
+<span id="cb18-7"><a href="" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> fit.bse</span>
+<span id="cb18-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Estimated parameters
+Intercept         3.877879
+drug[T.B]         0.177773
+hour             -0.739654
+drug[T.B]:hour   -0.706854
+dtype: float64
+
+Uncertainty (standard error) in the estimates
+Intercept         0.325013
+drug[T.B]         0.487519
+hour              0.107348
+drug[T.B]:hour    0.161022
+dtype: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="estimate-half-lives-of-drugs-a-and-b-2" class="slide level3">
+<h3>Estimate half-lives of drugs A and B</h3>
+<div id="13dff20a" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># estimated decay rates</span></span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>rA <span class="op">=</span> <span class="op">-</span>mu[<span class="st">'hour'</span>]</span>
+<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>rB <span class="op">=</span> <span class="op">-</span>mu[<span class="st">'hour'</span>] <span class="op">-</span> mu[<span class="st">'drug[T.B]:hour'</span>]</span>
+<span id="cb20-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># estimated half-lives</span></span>
+<span id="cb20-6"><a href="" aria-hidden="true" tabindex="-1"></a>thalfA <span class="op">=</span> log(<span class="dv">2</span>)  <span class="op">/</span> rA</span>
+<span id="cb20-7"><a href="" aria-hidden="true" tabindex="-1"></a>thalfB <span class="op">=</span> log(<span class="dv">2</span>)  <span class="op">/</span> rB</span>
+<span id="cb20-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'estimated half life of drug A = </span><span class="sc">{</span>thalfA<span class="sc">:.2f}</span><span class="ss"> h'</span>)</span>
+<span id="cb20-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'estimated half life of drug B = </span><span class="sc">{</span>thalfB<span class="sc">:.2f}</span><span class="ss"> h'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>estimated half life of drug A = 0.94 h
+estimated half life of drug B = 0.48 h</code></pre>
+</div>
+</div>
+<ul>
+<li class="fragment">As half-life is the inverse of decay rate, uncertainty in the half-life estimates is not simple to calculate. So we won’t do that here.</li>
+</ul>
+</section>
+<section id="report-the-result" class="slide level3">
+<h3>Report the result</h3>
+<p>The decay rates of drugs A and B are significantly different (<span class="math inline">\(\Delta r = 0.71\pm 0.16\ \text{h}^{-1}\)</span>, 95% CI = (0.38, 1.03), <span class="math inline">\(t=4.4\)</span>, <span class="math inline">\(p&lt;0.001\)</span>). The half-life of drug A is 0.94 h and the half-life of drug B is 0.48 h.</p>
+</section>
+<section id="case-study-2-tovahs-experiments" class="slide level3">
+<h3>Case study 2, Tovah’s experiments</h3>
+<h4 id="gut-macrophage-turnover-2">Gut macrophage turnover</h4>
+<p>The notebook <code>macrophage_analysis.ipynb</code> leads you through the analysis of Tovah’s data.</p>
+<p>The notebook <code>drug_analysis_workflow.ipynb</code> is an abridged version of this lecture.</p>
+<p>You can copy and paste the code from that notebook into the macrophage notebook and then adapt it for the macrophage dataset.</p>
+</section>
+<section id="how-to-access-the-notebooks" class="slide level3">
+<h3>How to access the notebooks</h3>
+<p>These instructions are also on Learn</p>
+<ol type="1">
+<li class="fragment">Log onto Noteable through Learn</li>
+<li class="fragment">Start a Standard Python 3 Notebook</li>
+<li class="fragment">At the top click <strong>Git</strong> then <strong>Clone a repository</strong></li>
+<li class="fragment">Copy and paste the URL <strong>https://github.com/edinburgh-bto/EDII</strong> into the dialog</li>
+<li class="fragment">Make sure to tick <strong>Download the Repository</strong></li>
+<li class="fragment">Click <strong>Clone</strong></li>
+<li class="fragment">The notebooks are in the EDII/Case Study 2 folder</li>
+</ol>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="case_study2_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="case_study2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="case_study2_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="case_study2_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="case_study2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="case_study2_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="case_study2_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="case_study2_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="case_study2_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="case_study2_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
