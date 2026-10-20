@@ -321,10 +321,10 @@ Nick Savill
 </section>
 <section id="read-in-the-data" class="slide level3 smaller scrollable">
 <h3>Read in the data</h3>
-<div id="a9e2f88c" class="cell" data-execution_count="3">
+<div id="a9e2f88c" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugs <span class="op">=</span> pd.read_csv(<span class="st">'Data/drug_data.csv'</span>)</span>
 <span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a>drugs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -769,13 +769,13 @@ Nick Savill
 <h3>For clarity, let’s start with examining drug A data</h3>
 <p>(You would normally analyse both drugs simultaneously)</p>
 <p>Select only drug A data from the dataframe</p>
-<div id="de4861fd" class="cell" data-execution_count="4">
+<div id="de4861fd" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugA <span class="op">=</span> drugs.query(<span class="st">'drug == "A"'</span>).copy()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="plot-drug-a-data" class="slide level3 nonincremental">
 <h3>Plot drug A data</h3>
-<div id="25aa5432" class="cell" data-execution_count="5">
+<div id="25aa5432" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'concentration'</span>, err_style<span class="op">=</span><span class="va">None</span>)<span class="op">;</span></span>
 <span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'concentration'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
@@ -783,7 +783,7 @@ Nick Savill
 <img data-src="case_study2_files/figure-revealjs/cell-5-output-1.png" class="r-stretch"></section>
 <section id="semi-log-plot-to-see-if-decay-is-exponential" class="slide level3">
 <h3>Semi-log plot to see if decay is exponential</h3>
-<div id="5e914fd2" class="cell" data-execution_count="8">
+<div id="5e914fd2" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.lineplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'concentration'</span>, err_style<span class="op">=</span><span class="va">None</span>)<span class="op">;</span></span>
 <span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugA, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'concentration'</span>)</span>
 <span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>ax.set_yscale(<span class="st">'log'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -792,10 +792,10 @@ Nick Savill
 <img data-src="case_study2_files/figure-revealjs/cell-6-output-1.png" class="r-stretch"></section>
 <section id="log-transform-concentration" class="slide level3 smaller scrollable">
 <h3>Log-transform concentration</h3>
-<div id="1b37decc" class="cell" data-execution_count="9">
+<div id="1b37decc" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugA[<span class="st">'log_conc'</span>] <span class="op">=</span> log(drugA[<span class="st">'concentration'</span>])</span>
 <span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>drugA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -1759,10 +1759,10 @@ Nick Savill
 </section>
 <section id="log-transform-concentration-1" class="slide level3 smaller scrollable">
 <h3>Log-transform concentration</h3>
-<div id="949e95d9" class="cell" data-execution_count="20">
+<div id="949e95d9" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugs[<span class="st">'log_conc'</span>] <span class="op">=</span> log(drugs[<span class="st">'concentration'</span>]).dropna()</span>
 <span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a>drugs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -2231,7 +2231,7 @@ Nick Savill
 </section>
 <section id="use-seaborn-to-plot-a-linear-regression-line-with-95-confidence-bands" class="slide level3">
 <h3>Use seaborn to plot a linear regression line with 95% confidence bands</h3>
-<div id="2a9257bc" class="cell" data-execution_count="21">
+<div id="2a9257bc" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a>sns.lmplot(data<span class="op">=</span>drugs, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'log_conc'</span>, hue<span class="op">=</span><span class="st">'drug'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
@@ -2264,11 +2264,11 @@ Nick Savill
 </section>
 <section id="fit-our-linear-model-to-the-drug-data" class="slide level3 smaller">
 <h3>Fit our linear model to the drug data</h3>
-<div id="889a6931" class="cell" data-execution_count="22">
+<div id="889a6931" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'log_conc ~ drug*hour'</span></span>
 <span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a>fit <span class="op">=</span> ols(formula, drugs).fit()</span>
 <span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a>fit.summary().tables[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="21">
 <table class="simpletable caption-top">
 <tbody>
 <tr class="odd">
@@ -2323,7 +2323,7 @@ Nick Savill
 </section>
 <section id="check-that-the-model-fits-the-data-5" class="slide level3">
 <h3>Check that the model fits the data</h3>
-<div id="0505eead" class="cell" data-execution_count="23">
+<div id="0505eead" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>drugs[<span class="st">'residuals'</span>] <span class="op">=</span> fit.resid_pearson</span>
 <span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugs, x<span class="op">=</span><span class="st">'hour'</span>, y<span class="op">=</span><span class="st">'residuals'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
@@ -2331,15 +2331,15 @@ Nick Savill
 <img data-src="case_study2_files/figure-revealjs/cell-21-output-1.png" class="r-stretch"></section>
 <section id="check-that-the-model-fits-the-data-6" class="slide level3">
 <h3>Check that the model fits the data</h3>
-<div id="8d61af35" class="cell" data-execution_count="24">
+<div id="8d61af35" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>drugs, x<span class="op">=</span><span class="st">'drug'</span>, y<span class="op">=</span><span class="st">'residuals'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="case_study2_files/figure-revealjs/cell-22-output-1.png" class="r-stretch"></section>
 <section id="interpreting-the-output-of-the-model-fit-5" class="slide level3 smaller">
 <h3>Interpreting the output of the model fit</h3>
-<div id="db45f2c5" class="cell" data-execution_count="25">
-<div class="cell-output cell-output-display" data-execution_count="25">
+<div id="db45f2c5" class="cell" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="24">
 <table class="simpletable caption-top">
 <tbody>
 <tr class="odd">
@@ -2407,8 +2407,8 @@ Nick Savill
 </section>
 <section id="interpreting-the-output-of-the-model-fit-7" class="slide level3 smaller">
 <h3>Interpreting the output of the model fit</h3>
-<div id="c6de703d" class="cell" data-execution_count="26">
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div id="c6de703d" class="cell" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="25">
 <table class="simpletable caption-top">
 <tbody>
 <tr class="odd">
@@ -2465,8 +2465,8 @@ Nick Savill
 <img data-src="Figures/drugs_D_intercept.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="interpreting-the-output-of-the-model-fit-8" class="slide level3 smaller">
 <h3>Interpreting the output of the model fit</h3>
-<div id="de219e42" class="cell" data-execution_count="27">
-<div class="cell-output cell-output-display" data-execution_count="27">
+<div id="de219e42" class="cell" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="26">
 <table class="simpletable caption-top">
 <tbody>
 <tr class="odd">
@@ -2523,8 +2523,8 @@ Nick Savill
 <img data-src="Figures/drugs_D_slopes.svg" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="interpreting-the-output-of-the-model-fit-9" class="slide level3 smaller">
 <h3>Interpreting the output of the model fit</h3>
-<div id="f836f4d1" class="cell" data-execution_count="28">
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div id="f836f4d1" class="cell" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="27">
 <table class="simpletable caption-top">
 <tbody>
 <tr class="odd">
@@ -2595,8 +2595,8 @@ Nick Savill
 </section>
 <section id="change-the-reference-level-of-a-factor-1" class="slide level3 smaller">
 <h3>Change the reference level of a factor</h3>
-<div id="6c360b66" class="cell" data-execution_count="33">
-<div class="cell-output cell-output-display" data-execution_count="33">
+<div id="6c360b66" class="cell" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="28">
 <table class="simpletable caption-top">
 <tbody>
 <tr class="odd">
@@ -2648,8 +2648,8 @@ Nick Savill
 </table>
 </div>
 </div>
-<div id="2ee61b86" class="cell" data-execution_count="34">
-<div class="cell-output cell-output-display" data-execution_count="34">
+<div id="2ee61b86" class="cell" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="29">
 <table class="simpletable caption-top">
 <tbody>
 <tr class="odd">
@@ -2705,50 +2705,38 @@ Nick Savill
 <section id="estimate-half-lives-of-drugs-a-and-b" class="slide level3">
 <h3>Estimate half-lives of drugs A and B</h3>
 <p>Half-life <span class="math inline">\(t_{1/2}\)</span>, is related to decay rate <span class="math inline">\(r\)</span>, by the formula</p>
-<p><span class="math display">\[t_{1/2} = \frac{\ln 2}{r}\]</span></p>
+<p><span class="math display">\[t_{1/2} = -\frac{\ln 2}{r}\]</span></p>
 <p>(The maths, if you’re interested, is in the macrophage notebook)</p>
 <ul>
 <li class="fragment">The decay rate and its standard error are available from the summary tables</li>
 </ul>
 </section>
-<section id="estimate-half-lives-of-drugs-a-and-b-1" class="slide level3">
-<h3>Estimate half-lives of drugs A and B</h3>
-<div id="e6421a88" class="cell" data-execution_count="31">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Estimated parameters'</span>)</span>
+<section id="get-the-estimated-decay-rates" class="slide level3">
+<h3>Get the estimated decay rates</h3>
+<div id="e6421a88" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Estimated decay rates'</span>)</span>
 <span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> fit.params</span>
-<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mu)</span>
-<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">''</span>)</span>
-<span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Uncertainty (standard error) in the estimates'</span>)</span>
-<span id="cb18-7"><a href="" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> fit.bse</span>
-<span id="cb18-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(se)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Estimated parameters
+<pre><code>Estimated decay rates
 Intercept         3.877879
 drug[T.B]         0.177773
 hour             -0.739654
 drug[T.B]:hour   -0.706854
-dtype: float64
-
-Uncertainty (standard error) in the estimates
-Intercept         0.325013
-drug[T.B]         0.487519
-hour              0.107348
-drug[T.B]:hour    0.161022
 dtype: float64</code></pre>
 </div>
 </div>
 </section>
-<section id="estimate-half-lives-of-drugs-a-and-b-2" class="slide level3">
+<section id="estimate-half-lives-of-drugs-a-and-b-1" class="slide level3">
 <h3>Estimate half-lives of drugs A and B</h3>
-<div id="13dff20a" class="cell" data-execution_count="36">
+<div id="13dff20a" class="cell" data-execution_count="32">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># estimated decay rates</span></span>
-<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>rA <span class="op">=</span> <span class="op">-</span>mu[<span class="st">'hour'</span>]</span>
-<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>rB <span class="op">=</span> <span class="op">-</span>mu[<span class="st">'hour'</span>] <span class="op">-</span> mu[<span class="st">'drug[T.B]:hour'</span>]</span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>rA <span class="op">=</span> mu[<span class="st">'hour'</span>]</span>
+<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>rB <span class="op">=</span> mu[<span class="st">'hour'</span>] <span class="op">+</span> mu[<span class="st">'drug[T.B]:hour'</span>]</span>
 <span id="cb20-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># estimated half-lives</span></span>
-<span id="cb20-6"><a href="" aria-hidden="true" tabindex="-1"></a>thalfA <span class="op">=</span> log(<span class="dv">2</span>)  <span class="op">/</span> rA</span>
-<span id="cb20-7"><a href="" aria-hidden="true" tabindex="-1"></a>thalfB <span class="op">=</span> log(<span class="dv">2</span>)  <span class="op">/</span> rB</span>
+<span id="cb20-6"><a href="" aria-hidden="true" tabindex="-1"></a>thalfA <span class="op">=</span> <span class="op">-</span>log(<span class="dv">2</span>)  <span class="op">/</span> rA</span>
+<span id="cb20-7"><a href="" aria-hidden="true" tabindex="-1"></a>thalfB <span class="op">=</span> <span class="op">-</span>log(<span class="dv">2</span>)  <span class="op">/</span> rB</span>
 <span id="cb20-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'estimated half life of drug A = </span><span class="sc">{</span>thalfA<span class="sc">:.2f}</span><span class="ss"> h'</span>)</span>
 <span id="cb20-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'estimated half life of drug B = </span><span class="sc">{</span>thalfB<span class="sc">:.2f}</span><span class="ss"> h'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
